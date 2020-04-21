@@ -307,7 +307,7 @@ export default {
                     {
                         name: '进出用户',
                         type: 'pie',
-                        radius: [0, '70%'],
+                        radius: [0, '65%'],
                         top: '-8%',
                         height:'auto',
                         width: 'auto',
@@ -370,7 +370,7 @@ export default {
                     {
                         name: '收费用户',
                         type: 'pie',
-                        radius: [0, '70%'],
+                        radius: [0, '65%'],
                         top: '-8%',
                         height:'auto',
                         width: 'auto',
@@ -623,7 +623,7 @@ export default {
                 height: 100%;
                 box-sizing: border-box;
                 padding-right: 0.12rem;
-                font-size:14px;
+                font-size:.14rem;
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
                 color:rgba(255,255,255,1);
@@ -757,7 +757,7 @@ export default {
                     position: relative;
                     line-height: .42rem;
                     text-indent: .1rem;
-                    font-size: 14px;
+                    font-size: .14rem;
                     font-family:SourceHanSansCN-Medium,SourceHanSansCN;
                     font-weight:500;
                     color:rgba(255,255,255,1);
@@ -817,6 +817,9 @@ export default {
         &::after{
             border: 0;
         }
+    }
+    /deep/ .van-popup{
+        z-index: 10000000 !important;
     }
 
 </style>

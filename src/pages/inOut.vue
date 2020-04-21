@@ -343,7 +343,7 @@ export default {
             box-sizing: border-box;
             padding: 0 .15rem;
             .total{
-                font-size:14px;
+                font-size:.14rem;
                 height: .44rem;
                 line-height: .44rem;
                 font-family:PingFangSC-Regular,PingFang SC;
@@ -363,7 +363,7 @@ export default {
                     height: .5rem;
                     width: 100%;
                     box-sizing: border-box;
-                    font-size: 15px;
+                    font-size: .15rem;
                     font-family:PingFangSC-Semibold,PingFang SC;
                     font-weight:600;
                     color:rgba(255,255,255,1);
@@ -430,7 +430,7 @@ export default {
                     >div{
                         margin-bottom: .11rem;
                         // height:0.17rem;
-                        font-size: 14px;
+                        font-size: .14rem;
                         font-family:PingFang-SC-Regular,PingFang-SC;
                         font-weight:400;
                         color:rgba(255,255,255,1);
@@ -440,7 +440,7 @@ export default {
                         align-items: flex-start;
                         .detail-label{
                             color: #CFD1D4;
-                            font-size: 12px;
+                            font-size: .12rem;
                             width: .75rem;
                         }
                     }

@@ -266,7 +266,7 @@ export default {
 
 <style lang="scss" scoped>
     .content{
-        font-size:14px;
+        font-size:.14rem;
         padding: 46px 0 0 0;
         .search{
             width:3.75rem;
@@ -282,7 +282,7 @@ export default {
                 height: 100%;
                 box-sizing: border-box;
                 padding-right: 0.12rem;
-                font-size:14px;
+                font-size:.14rem;
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
                 color:rgba(255,255,255,1);
@@ -370,7 +370,7 @@ export default {
                     height: .5rem;
                     width: 100%;
                     box-sizing: border-box;
-                    font-size: 15px;
+                    font-size: .15rem;
                     font-family:PingFangSC-Semibold,PingFang SC;
                     font-weight:600;
                     color:rgba(255,255,255,1);
@@ -438,7 +438,7 @@ export default {
                     >div{
                         margin-bottom: .11rem;
                         // height:0.17rem;
-                        font-size: 14px;
+                        font-size: .14rem;
                         font-family:PingFang-SC-Regular,PingFang-SC;
                         font-weight:400;
                         color:rgba(255,255,255,1);
@@ -448,7 +448,7 @@ export default {
                         align-items: flex-start;
                         .detail-label{
                             color: #CFD1D4;
-                            font-size: 12px;
+                            font-size: .12rem;
                             width: .75rem;
                         }
                     }
