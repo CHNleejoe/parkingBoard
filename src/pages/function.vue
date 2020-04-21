@@ -28,7 +28,7 @@ export default {
                 {label: '停车收费查询', icon:'./static/imgs/money.png', herf:'/charge'},
                 {label: '车辆进出场查询', icon:'./static/imgs/arm.png', herf:'/inOut'},
                 {label: '在场车辆查询', icon:'./static/imgs/parking-green.png', herf:'/inParking'},
-                {label: '车辆进出场查询', icon:'./static/imgs/king.png', herf:'/user'},
+                {label: '月卡会员查询', icon:'./static/imgs/king.png', herf:'/user'},
             ],
         }
     },

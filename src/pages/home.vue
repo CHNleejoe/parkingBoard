@@ -17,7 +17,7 @@
                     class="data-item"
                     v-for="(item, index) in dataList"
                     :key="index"
-                    @click="turnPage(item.herf)"
+                    @click="turnPage(item)"
                 >
                     <div class="img">
                         <img :src="item.icon" alt="">
@@ -87,13 +87,13 @@ export default {
         return {
             // 看板items渲染数据以及获取数据
             dataList:[
-                {label: '进出车辆总量', labelStr: 'total', icon:'./static/imgs/car.png', unit: '辆', herf:''},
-                {label: '进场车辆总量', labelStr: 'enter', icon:'./static/imgs/out.png', unit: '辆', herf:''},
-                {label: '出场车辆总量', labelStr: 'out', icon:'./static/imgs/out-yellow.png', unit: '辆', herf:''},
-                {label: '在场车辆总数', labelStr: 'curr', icon:'./static/imgs/parking-red.png', unit: '辆', herf:''},
+                {label: '进出车辆总量', labelStr: 'total', icon:'./static/imgs/car.png', unit: '辆', herf:'/inOut', expend: {inOut: 0}},
+                {label: '进场车辆总量', labelStr: 'enter', icon:'./static/imgs/out.png', unit: '辆', herf:'/inOut', expend: {inOut: 1}},
+                {label: '出场车辆总量', labelStr: 'out', icon:'./static/imgs/out-yellow.png', unit: '辆', herf:'/inOut', expend: {inOut: 2}},
+                {label: '在场车辆总数', labelStr: 'curr', icon:'./static/imgs/parking-red.png', unit: '辆', herf:'/inParking'},
                 {label: '停车场总车位数', labelStr: 'parkPlaceNum', icon:'./static/imgs/parking.png', unit: '个', herf:''},
                 {label: '剩余车位数', labelStr: 'leftPlaceNum', icon:'./static/imgs/parking-green.png', unit: '个', herf:''},
-                {label: '收到停车费', labelStr: 'price', icon:'./static/imgs/money.png', unit: '元', herf:''},
+                {label: '收到停车费', labelStr: 'price', icon:'./static/imgs/money.png', unit: '元', herf:'/charge'},
             ],
             boardData: { 
                 total: 0,
@@ -212,10 +212,10 @@ export default {
             // console.log(new Date(t))
             return new Date(t)
         },
-        turnPage(url){
+        turnPage(item){
             const self = this;
-            if(url == '') return
-            self.$router.push({ path: url, query: { startDate: self.startDate, endDate: self.endDate } });
+            if(item.herf == '') return
+            self.$router.push({ path: item.herf, query: { startDate: self.startDate, endDate: self.endDate, expend: item.expend || ''} });
         },
         searchAllData() {
             // console.warn('searchAllData')
@@ -287,6 +287,7 @@ export default {
                 yData.push(item.userType)
             })
             var option = {
+                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -348,6 +349,8 @@ export default {
                 yData.push(item.userType)
             })
             var option = {
+                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -407,38 +410,36 @@ export default {
             var trafficFlowChart= echarts.init(document.getElementById('trafficFlowChart'));
             let xData = [],
                 yData = [{
+                        name: '进出场车辆总数',
+                        type: 'line',
+                        areaStyle: {},
+                        data: []
+                    },
+                    {
                         name: '进场车辆数',
                         type: 'line',
-                        stack: '总量',
                         areaStyle: {},
                         data: []
                     },
                     {
                         name: '出场车辆数',
                         type: 'line',
-                        stack: '总量',
-                        areaStyle: {},
-                        data: []
-                    },
-                    {
-                        name: '进出场车辆数',
-                        type: 'line',
-                        stack: '总量',
                         areaStyle: {},
                         data: []
                     }]
             self.trafficFlowData.map(item => {
-                if(self.dateTypeIndex == 0) {
+                if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
                     xData.push(dayjs(item.time).hour())
                 } else {
                     xData.push(dayjs(item.time).format('YYYY-MM-DD'))
                 }
-
-                yData[0].data.push(item.enterCount)
-                yData[1].data.push(item.outCount)
-                yData[2].data.push(item.totalCount)
+                yData[0].data.push(item.totalCount)
+                yData[1].data.push(item.enterCount)
+                yData[2].data.push(item.outCount)
             })
             var option = {
+                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -455,7 +456,7 @@ export default {
                     top: 10,
                     itemWidth:40,
                     itemHeight: 6,
-                    data: ['进场车辆数', '出场车辆数', '进出场车辆数'],
+                    data: ['进出场车辆总数', '进场车辆数', '出场车辆数'],
                     icon:'roundRect',
                     textStyle: {
                         color: '#fff'
@@ -514,26 +515,23 @@ export default {
                 yData = [{
                         name: '总收费',
                         type: 'line',
-                        stack: '总量',
                         areaStyle: {},
                         data: []
                     },
                     {
                         name: '月卡收费',
                         type: 'line',
-                        stack: '总量',
                         areaStyle: {},
                         data: []
                     },
                     {
                         name: '临时车收费',
                         type: 'line',
-                        stack: '总量',
                         areaStyle: {},
                         data: []
                     }]
             self.chargeData.map(item => {
-                if(self.dateTypeIndex == 0) {
+                if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
                     xData.push(dayjs(item.time).hour())
                 } else {
                     xData.push(dayjs(item.time).format('YYYY-MM-DD'))
@@ -543,6 +541,8 @@ export default {
                 yData[2].data.push(item.tempPrice)
             })
             var option = {
+                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {

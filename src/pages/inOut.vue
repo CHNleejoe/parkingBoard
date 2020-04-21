@@ -108,10 +108,10 @@ export default {
 
             // 时间选择器控制器数据
             displayStartDate: new Date(),
-            startDate: dayjs(new Date('2020-2-11')).format('YYYY/MM/DD'),
+            startDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             displayEndDate: new Date(),
-            endDate: dayjs(new Date('2020-3-10')).format('YYYY/MM/DD'),
+            endDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             startDatePopupCtl: false,
             endDatePopupCtl: false,
@@ -141,8 +141,12 @@ export default {
         Toast
     },
     mounted() {
-        console.error('board mounted ----')
         const self = this;
+        if(self.$route.query.expend) {
+            self.startDate = dayjs(self.$route.query.startDate).format('YYYY/MM/DD'),
+            self.endDate = dayjs(self.$route.query.endDate).format('YYYY/MM/DD'),
+            self.carTypeIndex = self.$route.query.expend.inOut
+        }
         self.onRefresh()
     },
     methods:{
@@ -171,6 +175,7 @@ export default {
             const self = this;
             
             self.carTypeIndex = index;
+            self.onRefresh()
             self.carTypePopupCtl = false
         },
         setStartDate(value) {

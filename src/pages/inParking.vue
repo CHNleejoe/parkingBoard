@@ -108,10 +108,10 @@ export default {
 
             // 时间选择器控制器数据
             displayStartDate: new Date(),
-            startDate: dayjs(new Date('2020-2-11')).format('YYYY/MM/DD'),
+            startDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             displayEndDate: new Date(),
-            endDate: dayjs(new Date('2020-3-10')).format('YYYY/MM/DD'),
+            endDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             startDatePopupCtl: false,
             endDatePopupCtl: false,
@@ -171,6 +171,8 @@ export default {
             const self = this;
             
             self.carTypeIndex = index;
+            self.onRefresh()
+
             self.carTypePopupCtl = false
         },
         setStartDate(value) {

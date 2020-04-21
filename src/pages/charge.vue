@@ -23,14 +23,18 @@
                 />
             </form>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+                
                 <van-list
                     v-model="loading"
                     :finished="finished"
                     finished-text="没有更多数据了"
                     @load="loadMoreData"
                     class="list"
-                >
-                    <div class="total">共{{totolNum}}条数据</div>
+                >   
+                    <div class="total" v-show="listData.length!=0">共{{totolNum}}条数据</div>
+                    <div class="no-data" v-show="listData.length==0 && refreshing== false">
+                        <img src="../assets/imgs/no-data.png" alt="">
+                    </div>
                     <div v-for="(item, index) in listData" :key="index" class="list-item">
                         <div class="title">
                             <div>{{item.carNo}}</div>
@@ -116,10 +120,10 @@ export default {
 
             // 时间选择器控制器数据
             displayStartDate: new Date(),
-            startDate: dayjs(new Date('2020-2-11')).format('YYYY/MM/DD'),
+            startDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             displayEndDate: new Date(),
-            endDate: dayjs(new Date('2020-3-10')).format('YYYY/MM/DD'),
+            endDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             startDatePopupCtl: false,
             endDatePopupCtl: false,
@@ -151,6 +155,10 @@ export default {
     mounted() {
         console.error('board mounted ----')
         const self = this;
+        if(self.$route.query) {
+            self.startDate = dayjs(self.$route.query.startDate).format('YYYY/MM/DD'),
+            self.endDate = dayjs(self.$route.query.endDate).format('YYYY/MM/DD')
+        }
         self.onRefresh()
     },
     methods:{

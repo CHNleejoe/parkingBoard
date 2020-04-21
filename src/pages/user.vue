@@ -34,29 +34,33 @@
                     <div class="total">共{{totolNum}}条数据</div>
                     <div v-for="(item, index) in listData" :key="index" class="list-item">
                         <div class="title">
-                            <div>{{item.carNo}}</div>
-                            <div :class="{type:true, vip: item.userType =='月卡用户'}"><span>{{item.userType}}</span></div>
+                            <div>{{item.userName}}</div>
+                            <div :class="{type:true, vip: true}"><span>{{item.userType}}</span></div>
                         </div>
                         <div class="details">
-                            <div>
-                                <span class="detail-label">用户名称：</span>
-                                <span class="detail-content">{{item.userName}}</span>
+                            <div class="detail-line">
+                                <div>
+                                    <span class="detail-label">车牌号码：</span>
+                                    <span class="detail-content">{{item.licenseNumber}}</span>
+                                </div>
+                                <div>
+                                    <span class="detail-label">电话号码：</span>
+                                    <span class="detail-content">{{item.telephoneNum}}</span>
+                                </div>
+                            </div>
+                            <div class="detail-line">
+                                <div>
+                                    <span class="detail-label">生效时间：</span>
+                                    <span class="detail-content">{{dayjs(item.startDate).format('YYYY-MM-DD')}}</span>
+                                </div>
+                                <div>
+                                    <span class="detail-label">失效时间：</span>
+                                    <span class="detail-content">{{dayjs(item.endDate).format('YYYY-MM-DD')}}</span>
+                                </div>
                             </div>
                             <div>
                                 <span class="detail-label">所属公司：</span>
                                 <span class="detail-content">{{item.companyName}}</span>
-                            </div>
-                            <div>
-                                <span class="detail-label">入场时间：</span>
-                                <span class="detail-content">{{item.enterTime}}</span>
-                            </div>
-                            <div>
-                                <span class="detail-label">出场时间：</span>
-                                <span class="detail-content">{{item.outTime}}</span>
-                            </div>
-                            <div>
-                                <span class="detail-label">联系电话：</span>
-                                <span class="detail-content">{{item.telephoneNum}}</span>
                             </div>
                         </div>
                     </div>
@@ -109,10 +113,10 @@ export default {
 
             // 时间选择器控制器数据
             displayStartDate: new Date(),
-            startDate: dayjs(new Date('2020-2-11')).format('YYYY/MM/DD'),
+            startDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             displayEndDate: new Date(),
-            endDate: dayjs(new Date('2020-3-10')).format('YYYY/MM/DD'),
+            endDate: dayjs(new Date()).format('YYYY/MM/DD'),
 
             startDatePopupCtl: false,
             endDatePopupCtl: false,
@@ -142,7 +146,6 @@ export default {
         Toast
     },
     mounted() {
-        console.error('board mounted ----')
         const self = this;
         self.onRefresh()
     },
@@ -163,6 +166,9 @@ export default {
             // console.log(new Date(t))
             return new Date(t)
         },
+        dayjs(t) {
+            return dayjs(t)
+        },
         turnPage(url){
             const self = this;
             if(url == '') return
@@ -172,6 +178,8 @@ export default {
             const self = this;
             
             self.carTypeIndex = index;
+            self.onRefresh()
+
             self.carTypePopupCtl = false
         },
         setStartDate(value) {
@@ -294,7 +302,7 @@ export default {
                 align-items: center;
                 flex: 1;
                 box-sizing: border-box;
-                padding: 0 .15rem;
+                // padding: 0 .15rem;
                 .arrow{
                     width: .4rem;
                     height: .16rem;
@@ -349,11 +357,12 @@ export default {
                 margin-bottom: .2rem;
                 box-sizing: border-box;
                 border-radius: .1rem;
-                padding: 0 .14rem;
 
                 .title{
                     height: .5rem;
                     width: 100%;
+                    padding: 0 .14rem;
+
                     box-sizing: border-box;
                     font-size: 15px;
                     font-family:PingFangSC-Semibold,PingFang SC;
@@ -364,26 +373,26 @@ export default {
                     align-items: center;
                     position: relative;
                     border-bottom: 1px solid #2A2F3D;
-                    &::after{
-                        content: '';
-                        height: .16rem;
-                        width: .16rem;
-                        border-radius: 50%;
-                        position: absolute;
-                        left: -.22rem;
-                        bottom: -.08rem;
-                        background: #342660;
-                    }
-                    &::before{
-                        content: '';
-                        height: .16rem;
-                        width: .16rem;
-                        border-radius: 50%;
-                        position: absolute;
-                        right: -.22rem;
-                        bottom: -.08rem;
-                        background: #342660;
-                    }
+                    // &::after{
+                    //     content: '';
+                    //     height: .16rem;
+                    //     width: .16rem;
+                    //     border-radius: 50%;
+                    //     position: absolute;
+                    //     left: -.22rem;
+                    //     bottom: -.08rem;
+                    //     background: #342660;
+                    // }
+                    // &::before{
+                    //     content: '';
+                    //     height: .16rem;
+                    //     width: .16rem;
+                    //     border-radius: 50%;
+                    //     position: absolute;
+                    //     right: -.22rem;
+                    //     bottom: -.08rem;
+                    //     background: #342660;
+                    // }
                     .type{
                         position: relative;
                         display: flex;
@@ -394,11 +403,12 @@ export default {
                             position: relative;
                             z-index: 0;
                             line-height: .5rem;
+                            text-indent: .1rem;
                         }
                         &::before{
                             content: '';
                             position: absolute;
-                            width:0.76rem;
+                            width: calc(100% + .14rem);
                             height:0.27rem;
                             right: -.14rem;
                             top: 50%;
@@ -415,22 +425,39 @@ export default {
                 }
                 .details{
                     box-sizing: border-box;
+                    padding: 0 .14rem;
                     padding-top: .16rem;
                     overflow: hidden;
-                    >div{
+
+                    div{
                         margin-bottom: .11rem;
-                        height:0.17rem;
+                        // height:0.17rem;
                         font-size: 14px;
                         font-family:PingFang-SC-Regular,PingFang-SC;
                         font-weight:400;
                         color:rgba(255,255,255,1);
                         line-height:0.17rem;
                         display: flex;
-                        justify-content: space-between;
+                        justify-content: flex-start;
                         align-items: center;
+                        flex: 1;
+
                         .detail-label{
                             color: #CFD1D4;
                             font-size: 12px;
+                            width: .6rem;
+                        }
+                        .detail-content{
+                            flex: 1;
+                        }
+                        &.detail-line{
+                            span{
+                                display: block;
+                            }
+                            >div{
+                                margin: 0 !important;
+                                height: auto;
+                            }
                         }
                     }
                 }
