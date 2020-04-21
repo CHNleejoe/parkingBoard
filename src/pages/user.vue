@@ -31,7 +31,11 @@
                     class="list"
                 >
                 <!-- todo item编写 -->
-                    <div class="total">共{{totolNum}}条数据</div>
+                    <!-- <div class="total">共{{totolNum}}条数据</div> -->
+                    <div class="total" v-show="listData.length!=0">共{{totolNum}}条数据</div>
+                    <div class="no-data" v-show="listData.length==0 && refreshing== false">
+                        <img src="../assets/imgs/no-data.png" alt="">
+                    </div>
                     <div v-for="(item, index) in listData" :key="index" class="list-item">
                         <div class="title">
                             <div>{{item.userName}}</div>
