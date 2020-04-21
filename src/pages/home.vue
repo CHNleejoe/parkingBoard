@@ -287,7 +287,7 @@ export default {
                 yData.push(item.userType)
             })
             var option = {
-                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+                color: ['#767EFF', '#FEC400', '#F65B62', '#43E97D', '#B620E0'],
                 tooltip: {
                     trigger: 'item',
                     formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -349,7 +349,7 @@ export default {
                 yData.push(item.userType)
             })
             var option = {
-                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+                color: ['#767EFF', '#FEC400', '#F65B62', '#43E97D', '#B620E0'],
 
                 tooltip: {
                     trigger: 'item',
@@ -438,7 +438,7 @@ export default {
                 yData[2].data.push(item.outCount)
             })
             var option = {
-                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+                color: ['#767EFF', '#FEC400', '#F65B62', '#43E97D', '#B620E0'],
 
                 tooltip: {
                     trigger: 'axis',
@@ -541,7 +541,7 @@ export default {
                 yData[2].data.push(item.tempPrice)
             })
             var option = {
-                color: ['#32C5E9', '#fb7293', '#43E97B', '#ff9f7f', '#9d96f5'],
+                color: ['#767EFF', '#FEC400', '#F65B62', '#43E97D', '#B620E0'],
 
                 tooltip: {
                     trigger: 'axis',
@@ -600,12 +600,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    
     .content{
         // height: 18.75rem;
         // background-color: #fff;
         // margin: 1.25rem 0.9375rem 1.25rem 0.9375rem;
         // border-radius: 0.5rem;
-        font-size:14px;
+        font-size:.14rem;
         padding: 46px 0 0 0;
 
         .search{
@@ -794,7 +795,7 @@ export default {
         }
     }
     .van-nav-bar {
-        z-index: 1;         
+        z-index: 99999999;         
         height: 46px;
         line-height: 46px;
         text-align: center;

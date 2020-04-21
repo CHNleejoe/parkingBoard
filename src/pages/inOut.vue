@@ -259,7 +259,7 @@ export default {
 
 <style lang="scss" scoped>
     .content{
-        font-size:14px;
+        font-size:.14rem;
         padding: 46px 0 0 0;
         .search{
             width:3.75rem;
@@ -275,7 +275,7 @@ export default {
                 height: 100%;
                 box-sizing: border-box;
                 padding-right: 0.12rem;
-                font-size:14px;
+                font-size:.14rem;
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
                 color:rgba(255,255,255,1);
@@ -402,11 +402,13 @@ export default {
                             position: relative;
                             z-index: 0;
                             line-height: .5rem;
+                            text-indent: .14rem;
                         }
                         &::before{
                             content: '';
                             position: absolute;
-                            width:0.76rem;
+                            // width:0.76rem;
+                            width: calc(100% + .14rem);
                             height:0.27rem;
                             right: -.14rem;
                             top: 50%;
@@ -427,7 +429,7 @@ export default {
                     overflow: hidden;
                     >div{
                         margin-bottom: .11rem;
-                        height:0.17rem;
+                        // height:0.17rem;
                         font-size: 14px;
                         font-family:PingFang-SC-Regular,PingFang-SC;
                         font-weight:400;
@@ -435,10 +437,11 @@ export default {
                         line-height:0.17rem;
                         display: flex;
                         justify-content: space-between;
-                        align-items: center;
+                        align-items: flex-start;
                         .detail-label{
                             color: #CFD1D4;
                             font-size: 12px;
+                            width: .75rem;
                         }
                     }
                 }

@@ -51,6 +51,7 @@ export default {
 <style lang='scss' scoped>
   /deep/ .van-tabbar{
     background-color: #131929;
+    z-index: 9999999;
     &::after{
       border-width: 0;
     }
