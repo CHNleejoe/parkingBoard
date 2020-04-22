@@ -16,7 +16,7 @@
                 <van-search
                     v-model="key"
                     shape="round"
-                    placeholder="请输入搜索关键词"
+                    placeholder="请输入公司名字或车牌号"
                     background='#0A121E'
                     @search="onRefresh"
                     @cancel="onCancel"
@@ -37,7 +37,10 @@
                     </div>
                     <div v-for="(item, index) in listData" :key="index" class="list-item">
                         <div class="title">
-                            <div>{{item.carNo}}</div>
+                            <div>
+                                <p>{{item.carNo}}</p>
+                                <p :class="item.inoutType=='进场'?'in':'out'">{{item.inoutType}}</p>
+                            </div>
                             <div :class="{type:true, vip: item.userType =='月卡用户'}"><span>{{item.userType}}</span></div>
                         </div>
                         <div class="details">
@@ -360,7 +363,7 @@ export default {
                 padding: 0 .14rem;
 
                 .title{
-                    height: .5rem;
+                    height: .63rem;
                     width: 100%;
                     box-sizing: border-box;
                     font-size: .15rem;
@@ -372,6 +375,15 @@ export default {
                     align-items: center;
                     position: relative;
                     border-bottom: 1px solid #2A2F3D;
+                    .in{
+                        font-size:0.12rem;
+                        color: #01DF99;
+                        
+                    }
+                    .out{
+                        font-size:0.12rem;
+                        color: #F65961;
+                    }
                     &::after{
                         content: '';
                         height: .16rem;

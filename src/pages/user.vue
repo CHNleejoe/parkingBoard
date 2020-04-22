@@ -16,7 +16,7 @@
                 <van-search
                     v-model="key"
                     shape="round"
-                    placeholder="请输入搜索关键词"
+                    placeholder="请输入公司名字、用户名或者车牌号"
                     background='#0A121E'
                     @search="onRefresh"
                     @cancel="onCancel"

@@ -17,6 +17,7 @@
                     class="data-item"
                     v-for="(item, index) in dataList"
                     :key="index"
+                    v-show="item.display == 'hasParkingData'?hasParkingData:true"
                     @click="turnPage(item)"
                 >
                     <div class="img">
@@ -87,13 +88,13 @@ export default {
         return {
             // 看板items渲染数据以及获取数据
             dataList:[
-                {label: '进出车辆总量', labelStr: 'total', icon:'./static/imgs/car.png', unit: '辆', herf:'/inOut', expend: {inOut: 0}},
-                {label: '进场车辆总量', labelStr: 'enter', icon:'./static/imgs/out.png', unit: '辆', herf:'/inOut', expend: {inOut: 1}},
-                {label: '出场车辆总量', labelStr: 'out', icon:'./static/imgs/out-yellow.png', unit: '辆', herf:'/inOut', expend: {inOut: 2}},
-                {label: '在场车辆总数', labelStr: 'curr', icon:'./static/imgs/parking-red.png', unit: '辆', herf:'/inParking'},
-                {label: '停车场总车位数', labelStr: 'parkPlaceNum', icon:'./static/imgs/parking.png', unit: '个', herf:''},
-                {label: '剩余车位数', labelStr: 'leftPlaceNum', icon:'./static/imgs/parking-green.png', unit: '个', herf:''},
-                {label: '收到停车费', labelStr: 'price', icon:'./static/imgs/money.png', unit: '元', herf:'/charge'},
+                {label: '进出车辆总量', labelStr: 'total', icon:'./static/imgs/car.png', unit: '辆', herf:'/inOut', expend: {inOut: 0}, display: true},
+                {label: '进场车辆总量', labelStr: 'enter', icon:'./static/imgs/out.png', unit: '辆', herf:'/inOut', expend: {inOut: 1}, display: true},
+                {label: '出场车辆总量', labelStr: 'out', icon:'./static/imgs/out-yellow.png', unit: '辆', herf:'/inOut', expend: {inOut: 2}, display: true},
+                {label: '在场车辆总数', labelStr: 'curr', icon:'./static/imgs/parking-red.png', unit: '辆', herf:'/inParking', display: 'hasParkingData'},
+                {label: '停车场总车位数', labelStr: 'parkPlaceNum', icon:'./static/imgs/parking.png', unit: '个', herf:'', display: true},
+                {label: '剩余车位数', labelStr: 'leftPlaceNum', icon:'./static/imgs/parking-green.png', unit: '个', herf:'', display: true},
+                {label: '收到停车费', labelStr: 'price', icon:'./static/imgs/money.png', unit: '元', herf:'/charge', display: true},
             ],
             boardData: { 
                 total: 0,
@@ -128,8 +129,7 @@ export default {
             // 收费统计图表数据  停车场收费趋势
             chargeData: {},
 
-
-            
+            hasParkingData: true
         }
     },
     watch: {
@@ -215,7 +215,17 @@ export default {
         turnPage(item){
             const self = this;
             if(item.herf == '') return
-            self.$router.push({ path: item.herf, query: { startDate: self.startDate, endDate: self.endDate, expend: item.expend || ''} });
+            let startDate = self.startDate,
+                endDate = self.endDate;
+            if(self.dateTypeIndex == 1) {
+                startDate = dayjs(self.startDate).format('YYYY-MM-DD')
+                endDate = dayjs(self.endDate).endOf('month').format('YYYY-MM-DD')
+            }else if(self.dateTypeIndex == 2) {
+                item.herf=='/inParking'?'':Toast('由于数据量过大，查询范围只能为30天');
+                startDate = dayjs().startOf('month').format('YYYY-MM-DD')
+                endDate = dayjs().endOf('month').format('YYYY-MM-DD')
+            }
+            self.$router.push({ path: item.herf, query: { startDate: startDate, endDate: endDate, expend: item.expend || ''} });
         },
         searchAllData() {
             // console.warn('searchAllData')
@@ -260,6 +270,7 @@ export default {
                     return
                 }
                 self.boardData = res.b
+                self.hasParkingData = (self.startDate==self.endDate && self.startDate == dayjs().format('YYYY/MM/DD'))
             })
         },
         // 车辆进出用户类型统计
@@ -429,9 +440,11 @@ export default {
                     }]
             self.trafficFlowData.map(item => {
                 if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
-                    xData.push(dayjs(item.time).hour())
+                    xData.push(dayjs(item.time).hour()+'点')
+                } else if(self.dateTypeIndex == 1){
+                    xData.push(dayjs(item.time).format('D')+'号')
                 } else {
-                    xData.push(dayjs(item.time).format('YYYY-MM-DD'))
+                    xData.push(dayjs(item.time).format('M')+'月')
                 }
                 yData[0].data.push(item.totalCount)
                 yData[1].data.push(item.enterCount)
@@ -475,7 +488,9 @@ export default {
                         color: '#fff',
                         data: xData,
                         axisLabel:{
-                            color: '#fff'
+                            color: '#fff',
+                            interval: 3,
+                            showMaxLabel: true
                         }
                     }
                 ],
@@ -483,7 +498,8 @@ export default {
                     {
                         type: 'value',
                         axisLabel:{
-                            color: '#fff'
+                            color: '#fff',
+                            formatter:'{value} 个'
                         }
                     }
                 ],
@@ -532,9 +548,11 @@ export default {
                     }]
             self.chargeData.map(item => {
                 if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
-                    xData.push(dayjs(item.time).hour())
+                    xData.push(dayjs(item.time).hour()+'点')
+                } else if(self.dateTypeIndex == 1){
+                    xData.push(dayjs(item.time).format('D')+'号')
                 } else {
-                    xData.push(dayjs(item.time).format('YYYY-MM-DD'))
+                    xData.push(dayjs(item.time).format('M')+'月')
                 }
                 yData[0].data.push(item.totalPrice)
                 yData[1].data.push(item.vipPrice)
@@ -578,7 +596,10 @@ export default {
                         color: '#fff',
                         data: xData,
                         axisLabel:{
-                            color: '#fff'
+                            color: '#fff',
+                            interval: 'auto',
+                            interval: 3,
+                            showMaxLabel: true
                         }
                     }
                 ],
@@ -586,7 +607,8 @@ export default {
                     {
                         type: 'value',
                         axisLabel:{
-                            color: '#fff'
+                            color: '#fff',
+                            formatter:'{value} 元'
                         }
                     }
                 ],
