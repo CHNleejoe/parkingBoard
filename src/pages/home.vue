@@ -3,15 +3,16 @@
         <van-nav-bar title="停车看板" fixed left-text="" left-arrow @click-left="goBack">
         </van-nav-bar>
         <div class="content">
-            <div class="search">
+            <div class="search fixed">
                 <div class="type" @click="dateTypePopupCtl = true">{{dateTypeColumns[dateTypeIndex]}}</div>
                 <div class="during">
-                    <div class="start time" @click="startDatePopupCtl = true;dateTypeIndex = 3;">{{startDate}}</div>
+                    <div class="start time" @click="startDatePopupCtl = true;endDatePopupCtl = false;dateTypeIndex = 3;">{{startDate}}</div>
                     <div class="arrow"></div>
-                    <div class="end time" @click="endDatePopupCtl = true;dateTypeIndex = 3;">{{endDate}}</div>
+                    <div class="end time" @click="endDatePopupCtl = true;startDatePopupCtl = false;dateTypeIndex = 3;">{{endDate}}</div>
                 </div>
                 <div class="btn" @click="searchAllData"></div>
             </div>
+            <div class="search"></div>
             <div class="datas">
                 <div
                     class="data-item"
@@ -108,7 +109,7 @@ export default {
 
             // 时间类型控制器数据
             dateTypePopupCtl: false,
-            dateTypeColumns:['本日','本月','本年','自定义'],
+            dateTypeColumns:['今日','本月','本年','自定义'],
             dateTypeIndex: 0,
             
             // 时间选择器控制器数据
@@ -441,7 +442,7 @@ export default {
             self.trafficFlowData.map(item => {
                 if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
                     xData.push(dayjs(item.time).hour()+'点')
-                } else if(self.dateTypeIndex == 1){
+                } else if(self.dateTypeIndex == 1 || self.dateTypeIndex == 3){
                     xData.push(dayjs(item.time).format('D')+'号')
                 } else {
                     xData.push(dayjs(item.time).format('M')+'月')
@@ -549,7 +550,7 @@ export default {
             self.chargeData.map(item => {
                 if(self.dateTypeIndex == 0 || (self.dateTypeIndex == 3 && self.startDate == self.endDate)) {
                     xData.push(dayjs(item.time).hour()+'点')
-                } else if(self.dateTypeIndex == 1){
+                } else if(self.dateTypeIndex == 1 || self.dateTypeIndex == 3){
                     xData.push(dayjs(item.time).format('D')+'号')
                 } else {
                     xData.push(dayjs(item.time).format('M')+'月')
@@ -640,6 +641,10 @@ export default {
             align-items: center;
             box-sizing: border-box;
             padding: 0 0.15rem;
+            &.fixed{
+                position: fixed;
+                z-index: 9999999;
+            }
             .type{
                 width:0.55rem;
                 height: 100%;

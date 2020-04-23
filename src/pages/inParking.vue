@@ -6,22 +6,23 @@
             <!-- <div class="search">
                 <div class="type" @click="carTypePopupCtl = true">{{carTypeColumns[carTypeIndex]}}</div>
                 <div class="during">
-                    <div class="start time" @click="startDatePopupCtl = true">{{startDate}}</div>
+                    <div class="start time" @click="startDatePopupCtl = true;endDatePopupCtl = false;">{{startDate}}</div>
                     <div class="arrow"></div>
-                    <div class="end time" @click="endDatePopupCtl = true">{{endDate}}</div>
+                    <div class="end time" @click="startDatePopupCtl = false;endDatePopupCtl = true;">{{endDate}}</div>
                 </div>
                 <div class="btn" @click="onRefresh"></div>
             </div> -->
-            <form action="/">
+            <form action="/" class="form fixed">
                 <van-search
                     v-model="key"
                     shape="round"
-                    placeholder="请输入公司名字或车牌号"
+                    placeholder="请输入公司名字、车牌号或用户名"
                     background='#0A121E'
                     @search="onRefresh"
                     @cancel="onCancel"
                 />
             </form>
+            <div class="form"></div>
             <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
                 <van-list
                     v-model="loading"
@@ -258,6 +259,10 @@ export default {
     .content{
         font-size:.14rem;
         padding: 46px 0 0 0;
+        .fixed{
+            position: fixed;
+            z-index: 2;
+        }
         .search{
             width:3.75rem;
             height:0.43rem;
@@ -335,6 +340,10 @@ export default {
                 background-size: 0.17rem 0.18rem;
                 background-position: right center;
             }
+        }
+        .form{
+            height: 54px;
+            width: 100%;
         }
         .list{
             box-sizing: border-box;
