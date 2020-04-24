@@ -351,9 +351,24 @@ export default {
             .btn{
                 width:0.34rem;
                 height:100%;
-                background: url(../assets/imgs/search.png) no-repeat center center;
+                // background: url(../assets/imgs/search.png) no-repeat center center;
                 background-size: 0.17rem 0.18rem;
                 background-position: right center;
+                position: relative;
+                &::after{
+                    content: '查询';
+                    position: absolute;
+                    width:0.38rem;
+                    border-radius: .04rem;
+                    height: .3rem;
+                    line-height: .3rem;
+                    text-align: center;
+                    top: 50%;
+                    left: 35%;
+                    transform: translateY(-50%) translateX(-50%);
+                    background:linear-gradient(360deg,rgba(118,118,255,1) 0%,rgba(119,167,255,1) 100%);
+
+                }
             }
         }
         .list{
@@ -366,6 +381,7 @@ export default {
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
                 color:rgba(255,255,255,1);
+                opacity: .8;
             }
             .list-item{
                 width:100%;

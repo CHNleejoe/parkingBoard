@@ -41,7 +41,7 @@
                     <div v-for="(item, index) in listData" :key="index" class="list-item">
                         <div class="title">
                             <div>{{item.userName}}</div>
-                            <div :class="{type:true, vip: true}"><span>{{item.userType}}</span></div>
+                            <div :class="{type:true, half: item.userTypeId == 2, month: item.userTypeId == 3, display: item.userTypeId == 4}"><span>{{item.userType}}</span></div>
                         </div>
                         <div class="details">
                             <div class="detail-line">
@@ -345,9 +345,24 @@ export default {
             .btn{
                 width:0.34rem;
                 height:100%;
-                background: url(../assets/imgs/search.png) no-repeat center center;
+                // background: url(../assets/imgs/search.png) no-repeat center center;
                 background-size: 0.17rem 0.18rem;
                 background-position: right center;
+                position: relative;
+                &::after{
+                    content: '查询';
+                    position: absolute;
+                    width:0.38rem;
+                    border-radius: .04rem;
+                    height: .3rem;
+                    line-height: .3rem;
+                    text-align: center;
+                    top: 50%;
+                    left: 35%;
+                    transform: translateY(-50%) translateX(-50%);
+                    background:linear-gradient(360deg,rgba(118,118,255,1) 0%,rgba(119,167,255,1) 100%);
+
+                }
             }
         }
         .form{
@@ -364,6 +379,7 @@ export default {
                 font-family:PingFangSC-Regular,PingFang SC;
                 font-weight:400;
                 color:rgba(255,255,255,1);
+                opacity: .8;
             }
             .list-item{
                 width:100%;
@@ -431,9 +447,19 @@ export default {
                             border-radius:1rem 0rem 0rem 1rem;
                             background:linear-gradient(270deg,rgba(118,177,255,1) 0%,rgba(118,118,255,1) 100%);
                         }
-                        &.vip{
+                        &.half{
                             &::before{
                                 background:linear-gradient(270deg,rgba(255,228,0,1) 0%,rgba(254,196,0,1) 100%);
+                            }
+                        }
+                        &.month{
+                            &::before{
+                                background:linear-gradient(270deg,rgba(251,145,153,1) 0%,rgba(246,88,96,1) 100%);
+                            }
+                        }
+                        &.display{
+                            &::before{
+                                background:linear-gradient(270deg,rgba(83,231,200,1) 0%,rgba(41,203,151,1) 100%);
                             }
                         }
                     }

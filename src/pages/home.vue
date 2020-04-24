@@ -94,7 +94,7 @@ export default {
                 {label: '出场车辆总量', labelStr: 'out', icon:'./static/imgs/out-yellow.png', unit: '辆', herf:'/inOut', expend: {inOut: 2}, display: true},
                 {label: '在场车辆总数', labelStr: 'curr', icon:'./static/imgs/parking-red.png', unit: '辆', herf:'/inParking', display: 'hasParkingData'},
                 {label: '停车场总车位数', labelStr: 'parkPlaceNum', icon:'./static/imgs/parking.png', unit: '个', herf:'', display: true},
-                {label: '剩余车位数', labelStr: 'leftPlaceNum', icon:'./static/imgs/parking-green.png', unit: '个', herf:'', display: true},
+                {label: '剩余车位数', labelStr: 'leftPlaceNum', icon:'./static/imgs/parking-green.png', unit: '个', herf:'', display: 'hasParkingData'},
                 {label: '收到停车费', labelStr: 'price', icon:'./static/imgs/money.png', unit: '元', herf:'/charge', display: true},
             ],
             boardData: { 
@@ -215,7 +215,10 @@ export default {
         },
         turnPage(item){
             const self = this;
-            if(item.herf == '') return
+            if(item.herf == ''){
+                Toast('该功能暂未开发')
+                return
+            }
             let startDate = self.startDate,
                 endDate = self.endDate;
             if(self.dateTypeIndex == 1) {
@@ -306,23 +309,24 @@ export default {
                 },
                 legend: {
                     orient: 'horizontal',
-                    itemGap: 0,
+                    itemGap: 10,
                     left: 'center',
                     bottom: 5,
                     data: yData,
                     icon:'circle',
                     textStyle: {
-                        color: '#fff'
+                        color: '#fff',
+                        fontSize: 12
                     }
                 },
                 series: [
                     {
                         name: '进出用户',
                         type: 'pie',
-                        radius: [0, '65%'],
-                        top: '-8%',
-                        height:'auto',
-                        width: 'auto',
+                        radius: [0, '60%'],
+                        top: '-10%',
+                        // height:'auto',
+                        // width: 'auto',
                         label: {
                             formatter: '{b}\n({d}%)',
                             fontSize: 10
@@ -369,23 +373,24 @@ export default {
                 },
                 legend: {
                     orient: 'horizontal',
-                    itemGap: 0,
+                    itemGap: 10,
                     left: 'center',
                     bottom: 5,
                     data: yData,
                     icon:'circle',
                     textStyle: {
-                        color: '#fff'
+                        color: '#fff',
+                        fontSize: 12
                     }
                 },
                 series: [
                     {
                         name: '收费用户',
                         type: 'pie',
-                        radius: [0, '65%'],
-                        top: '-8%',
-                        height:'auto',
-                        width: 'auto',
+                        radius: [0, '60%'],
+                        top: '-10%',
+                        // height:'auto',
+                        // width: 'auto',
                         label: {
                             formatter: '{b}\n({d}%)',
                             fontSize: 10
@@ -480,11 +485,17 @@ export default {
                     left: '3%',
                     right: '4%',
                     bottom: '3%',
-                    containLabel: true
+                    containLabel: true,
+                    show: false
                 },
                 xAxis: [
                     {
                         type: 'category',
+                        splitLine:{
+                            lineStyle: {
+                                opacity: .2
+                            }
+                        },
                         boundaryGap: false,
                         color: '#fff',
                         data: xData,
@@ -498,6 +509,11 @@ export default {
                 yAxis: [
                     {
                         type: 'value',
+                        splitLine:{
+                            lineStyle: {
+                                opacity: .2
+                            }
+                        },
                         axisLabel:{
                             color: '#fff',
                             formatter:'{value} 个'
@@ -596,6 +612,11 @@ export default {
                         boundaryGap: false,
                         color: '#fff',
                         data: xData,
+                        splitLine:{
+                            lineStyle: {
+                                opacity: .2
+                            }
+                        },
                         axisLabel:{
                             color: '#fff',
                             interval: 'auto',
@@ -607,6 +628,11 @@ export default {
                 yAxis: [
                     {
                         type: 'value',
+                        splitLine:{
+                            lineStyle: {
+                                opacity: .2
+                            }
+                        },
                         axisLabel:{
                             color: '#fff',
                             formatter:'{value} 元'
@@ -709,9 +735,24 @@ export default {
             .btn{
                 width:0.34rem;
                 height:100%;
-                background: url(../assets/imgs/search.png) no-repeat center center;
+                // background: url(../assets/imgs/search.png) no-repeat center center;
                 background-size: 0.17rem 0.18rem;
                 background-position: right center;
+                position: relative;
+                &::after{
+                    content: '查询';
+                    position: absolute;
+                    width:0.38rem;
+                    border-radius: .04rem;
+                    height: .3rem;
+                    line-height: .3rem;
+                    text-align: center;
+                    top: 50%;
+                    left: 35%;
+                    transform: translateY(-50%) translateX(-50%);
+                    background:linear-gradient(360deg,rgba(118,118,255,1) 0%,rgba(119,167,255,1) 100%);
+
+                }
             }
         }
         .datas{
@@ -771,7 +812,7 @@ export default {
         .charts{
             box-sizing: border-box;
             padding: 0 .15rem;
-            margin-bottom: 1.16rem;
+            margin-bottom: .66rem;
             .chart-item{
                 width:3.45rem;
                 background:rgba(19,25,41,1);
@@ -804,11 +845,11 @@ export default {
                 }
                 #userTypeChart{
                     width: 100%;
-                    height: 3.05rem;
+                    height: 3.25rem;
                 }
                 #carTypeChart{
                     width: 100%;
-                    height: 3.05rem;
+                    height: 3.25rem;
                 }
                 #trafficFlowChart{
                     width: 100%;

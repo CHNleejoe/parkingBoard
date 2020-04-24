@@ -6,6 +6,9 @@
     align-items: center;
     height: 4rem;
     position: relative;
+    background: #131929;
+    border-radius: .08rem;
+    margin-top: .2rem;
 }
 
 .no-data>img {
